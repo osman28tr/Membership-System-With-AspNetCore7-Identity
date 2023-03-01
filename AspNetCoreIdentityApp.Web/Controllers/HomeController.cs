@@ -33,21 +33,25 @@ namespace AspNetCoreIdentityApp.Web.Controllers
         }
         [HttpPost]
         public async Task<IActionResult> SignUp(SignUpViewModel request)
-        {
+        {         
+            if (!ModelState.IsValid) //model error
+            {
+                return View();
+            }
             var identityResult = await _userManager.CreateAsync(new()
             {
-                UserName=request.UserName,
-                Email=request.Email,
-                PhoneNumber=request.Phone,
+                UserName = request.UserName,
+                Email = request.Email,
+                PhoneNumber = request.Phone,
 
-            },request.PasswordConfirm
+            }, request.PasswordConfirm
             );
-            if (identityResult.Succeeded)
+            if (identityResult.Succeeded) 
             {
                 TempData["SuccessMessage"] = "Üyelik kayıt işlemi başarıyla gerçekleşmiştir.";
                 return RedirectToAction(nameof(HomeController.SignUp));
             }
-            foreach (var error in identityResult.Errors)
+            foreach (var error in identityResult.Errors) //db error
             {
                 ModelState.AddModelError(string.Empty,error.Description);
             }
