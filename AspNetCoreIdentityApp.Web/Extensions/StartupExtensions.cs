@@ -15,7 +15,7 @@ namespace AspNetCoreIdentityApp.Web.Extensions
                 options.Password.RequireDigit = false;
                 options.Password.RequireNonAlphanumeric = false;
 
-            }).AddPasswordValidator<PasswordValidator>().AddEntityFrameworkStores<AppDbContext>();
+            }).AddPasswordValidator<PasswordValidator>().AddUserValidator<UserValidator>().AddEntityFrameworkStores<AppDbContext>();
         }
     }
 }
